@@ -1,1 +1,1 @@
-web: gunicorn aluguetaxi.wsgi
+web: gunicorn aluguetaxi.wsgi  --log-file -

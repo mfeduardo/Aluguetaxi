@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 import django_heroku
+import django_on_heroku
 from decouple import config
 import dj_database_url
 
@@ -187,3 +188,4 @@ DEFAULT_FROM_EMAIL = "contato@aluguetaxi.com.br"
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
+django_on_heroku.settings(locals())

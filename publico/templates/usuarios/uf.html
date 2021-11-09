@@ -1,0 +1,15 @@
+{%extends 'base.html'%}
+{%load static%}
+{% block title%}Minha Conta{% endblock %}
+{%block content%}
+<div class="adm-bg">
+    <div id="moldura">
+<h1>UF</h1>
+<br>
+{%for u in uf%}
+<p>{{ u.sigla }}-{{u.nome }}</p>
+{%endfor%}
+
+    </div>
+</div>
+{%endblock%}

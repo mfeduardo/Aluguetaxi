@@ -1,0 +1,17 @@
+{%extends 'base.html'%}
+
+{%block content%}
+<div class="adm-bg">
+    <div id="moldura">
+     <h1>Minha Conta</h1>      
+      <form class="adm-form" method="POST">
+        {% csrf_token %}
+      <h2>Meu Perfil </h2>
+      <h3><span style="color: #a0a0a0;">&nbsp;ALUGUE</span><span style="color: #FBC02D;">T&Aacute;XI</span> </h3>
+        {{ form.as_p }}
+        <input type="submit" value="Cadastrar">
+      </form>
+    </div>
+  </div>
+</div>
+{%endblock%}

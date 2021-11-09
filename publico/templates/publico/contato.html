@@ -1,0 +1,29 @@
+{%extends 'base.html'%}
+{% block title%}Fale Conosco{% endblock %}
+{%block content%}
+    <div id="moldura">
+        <h2>Fale Conosco</h2>
+        <br>
+        <h5>Tem alguma dúvida, crítica ou sugestão?</h5>
+        <h5>Deixe sua mensagem!</h5><br>
+        <div class="form-group">
+        <form method="post" action="{% url 'contato' %}">
+            {% csrf_token %}
+            Nome:<br><input type="text" name="nome" id="email" required style="width: 100%;" class="select form-control" {%if user.is_authenticated%} value="{{user.first_name}}" {%endif%}/><br>
+            Email:<br>
+            <input type="email" name="email" id="email" required style="width: 100%;" class="select form-control" {%if user.is_authenticated%} value="{{user.email}}" {%endif%}/><br>
+            Assunto:<br>
+            <select name="assunto" id="assunto" style="width: 100%;" class="select form-control" required>
+                <option value="" disabled selected hidden></option>
+                <option>Dúvida</option>
+                <option>Sugestão</option>
+                <option>Meu Anúncio</option>
+                <option>Pagamento</option>
+                <option>Outro</option>
+            </select><br>
+            Mensagem:<br>
+            <textarea name="mensagem" placeholder="Mensagem..." required style="width: 100%;" class="select form-control" /></textarea>
+            <button type="submit" class="btn btn-dark">Enviar Mensagen</button>
+        </form></div>
+    </div>
+{%endblock%}

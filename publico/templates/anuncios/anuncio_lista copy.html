@@ -1,0 +1,46 @@
+{%extends 'base.html'%}
+{% load static %}
+{% block title %}Meus Anúncios{% endblock %}
+{%block content%}
+<div id="moldura" style="border: 0;">
+  <h3 style="padding: 0.2em;" class="border-bottom">Meus An&uacute;ncios ({{ total }})</h3>
+  <br>
+  {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+    <li {% if message.tags %} class="alert alert-warning" role="alert"> {% endif %} {{ message }} </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  <br>
+  <div class="table-responsive-sm">
+    <table class="table table-striped">
+      <tbody>
+        {%for anuncio in anuncios%}
+        <tr>
+          <td>
+            {% if anuncio.image %}
+            <img src="/media/{{anuncio.image}}" style="width: 64px; height: 64px;">
+            {% else %}
+            <img src="{% static 'img/sem-foto.jpg' %}" style="width: 80px; height: 60px;">
+            {% endif %}
+          </td>
+          <a href="#">
+            <td>{{ anuncio.modelo }} | R$ {{ anuncio.valor }}<br>{%if anuncio.anuncio_fim > data%}
+              <i class="btn-success" style="font-size: 14px; border-radius: 6px;">&nbsp;Online até {{anuncio.anuncio_fim|date:"d/m/Y"}}&nbsp;</i>
+              {%else%}<i class="btn-danger" style="font-size: 14px; border-radius: 6px;">&nbsp;Offline&nbsp;</i> 
+              {%endif%}</td>
+          </a>
+          <td style="vertical-align: middle; text-align: center;" colspan="3">
+            <a href="/anuncio/editar/{{ anuncio.slug2 }}" class="btn btn-dark linkma">Editar</a>
+            <a href="/anuncio/info/{{ anuncio.slug2 }}" class="btn btn-dark linkma">Visualizar</a>
+            <a href="/anuncio/ativar/{{ anuncio.slug2 }}" class="btn btn-dark linkma">Ativar</a>
+          </td>
+        </tr>
+        {%endfor%}
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+{%endblock%}

@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}AlugueTáxi{% endblock %}
+
+{% block content %}
+<div id="main-banner">
+    <div id="search-form" class="search-form">
+        <h1>A maneira mais fácil de encontrar um táxi para alugar</h1>
+        <p>Conecte-se de forma gratuita e encontre os melhores táxis para alugar em sua cidade
+            <br><b>Anuncie seu táxi em nosso site</b></p>
+            <form name='search' action='/anuncios' method="GET" id="search">
+                <!--<input type="select" name="busca" id="busca" placeholder="Cidade...">-->
+                <div style="display: flex; justify-content: center; flex-wrap: wrap;">
+                <div style="margin-right: 5px;"><!--<select name="busca" id="busca">
+                    <option value="" disabled selected hidden>Cidade...</option>
+                    {%for cidade in cidades%}
+                    <option {%if cidade.cidade == user.cidade%}selected="selected"{%endif%} value="{{cidade.cidade}}">{{cidade.cidade}} ({{cidade.uf}})</option>
+                    {%endfor%} 
+                  </select>-->
+                  <input type="text" name="busca" id="busca" placeholder="Cidade...">
+                </div>
+                <div><input type="submit" id="submit" value="Buscar"></div>
+            </div>
+            </form>                        
+    </div>
+</div>
+
+<div id="molde">
+    <input type="button" value="Como Funciona?" class="btx" onclick="window.location.href='/comofunciona'">
+</div>
+
+<div id="molde">
+    <h2 style="font-weight: lighter">Veja como é fácil alugar um táxi...</h2>
+</div>
+<div id="molde">   
+    <div class="bloco">
+        <i class="fas fa-search"></i>
+        <p><b>Encontre</b><br><br>Encontre o táxi ideal para você</p>
+    </div>
+    <div class="bloco">
+        <i class="far fa-calendar-check"></i>
+        <p><b>Alugue</b><br><br>Fale com o dono táxi e combine os detalhes</p>
+    </div>
+    <div class="bloco">
+        <i class="fas fa-taxi"></i>
+        <p><b>Anuncie</b><br><br>É proprietário? Anuncie o seu táxi!</p>
+    </div>          
+</div>
+<div id="molde_banners">
+    <div class="bloco1"></div>
+    <div class="bloco2" >
+        <h2 style="margin-top: 50px;">Já tem um Táxi?</h2><br>
+        <h3 style="font-weight: lighter;">Ganhe dinheiro alugando seu Táxi!</h3><br><br>
+        <p>
+        <i class="fas fa-taxi" style="color: #000;"></i>
+        <i class="fas fa-hand-holding-usd" style="color: #000; margin-left: 40px"></i>
+        <br><br><br><input type="button" value="Cadastrar meu Táxi" class="btx">
+        </p>
+    </div>
+</div>
+
+{% endblock %}

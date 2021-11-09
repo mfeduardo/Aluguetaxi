@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Sair{% endblock %}
+
+{% block content %}
+<div id="moldura">
+    <div id="container">       
+        <h3>Sair</h3><br>
+        <p>Você tem certeza que deseja sair?</p>
+        <form method="post" action="{% url 'account_logout' %}">
+            {% csrf_token %}
+            <button class="btn btn-danger" type="submit">Sair</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

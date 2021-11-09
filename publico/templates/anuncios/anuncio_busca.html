@@ -1,0 +1,12 @@
+{%extends 'base.html'%}
+{% block title%}Meus Anúncios{% endblock %}
+{%block content%}
+<div id="moldura">
+    <h2>{{busca}} | An&uacute;ncios ({{ total }})</h2>
+    <br>
+    {% for anuncio in anuncios%}
+    <a style="text-decoration: none" href="/anuncio/detalhes/{{ anuncio.slug2 }}"><p>{{ anuncio.marca }} {{ anuncio.modelo }} - {{ anuncio.email }}  </p></a>
+    {%endfor%}
+</div>
+</div>
+{%endblock%}

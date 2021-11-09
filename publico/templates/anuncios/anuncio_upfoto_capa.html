@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{%load static%}
+{% load crispy_forms_tags %}
+{% block title %}Fotos: {{anuncio.modelo}}{% endblock %}
+{%block content%}
+<div class="adm-bg">
+    <div id="moldura">
+      <div class="form-group text-center">
+      <h3>Carregar Fotos</h3>
+       </div>
+       <div class="form-group text-center">
+        <h5>{{ anuncio.marca }} {{ anuncio.modelo }}</h5>
+      </div><br>    
+      <div class="form-group text-center">
+      <div class="row row-cols-1 row-cols-md-5">
+        {%if img%}
+        <div class="col mb-5">
+          <div class="card" style="width: 112px;">
+              {%if anuncio.image%}
+              <img src="/media/{{anuncio.image}}"  class="card-img-top" style="width: 110px; height: 100px;">
+              {%else%} 
+              <img src="{% static 'img/sem-foto.jpg' %}" class="card-img-top" style="width: 110px; height: 100px;">
+              {%endif%}
+                <div class="p-1 mb-1 text-white" style="background-color: #212121;">
+                  <a data-toggle="modal" data-target="#excluirModal" href="#">
+                    {%if anuncio.image%}
+                    <p class="card-text text-white">Alterar Foto Principal</p>
+                    {%else%}
+                    <p class="card-text text-white">Inserir Foto Principal</p>
+                    {%endif%}
+                  </a>
+                </div>
+            </div>
+      </div>
+        {%endif%}
+        {%for i in img%}
+        <div class="col mb-5">
+          <div class="card" style="width: 112px;">
+              {%if i.image%}
+              <img src="/media/{{i.image}}"  class="card-img-top" style="width: 110px; height: 100px;">
+              {%else%} 
+              <img src="{% static 'img/sem-foto.jpg' %}" class="card-img-top" style="width: 110px; height: 100px;">
+              {%endif%}
+                <div class="p-1 mb-1 text-white" style="background-color: #212121;">
+                  <a href="/anuncio/fotos/{{ anuncio.slug2 }}/{{ i.id }}">
+                    <p class="card-text text-white">Excluir</p>
+                  </a>
+                </div>
+            </div>
+      </div>
+        {%endfor%}
+        </div>
+      </div>
+      {% if messages %}
+      <ul class="messages">
+            {% for message in messages %}
+                <li {% if message.tags %} class="alert alert-warning" role="alert"> {% endif %} {{ message }} </li>
+            {% endfor %}
+        </ul>
+     {% endif %}
+       <form method="POST" enctype="multipart/form-data">
+       {% csrf_token %}
+       {{ form|crispy }}
+       <div class="text-center">
+         <input type="submit" value="Enviar" class="btn btn-dark">
+         <button type="button" class="btn btn-dark" onclick="location.href = '/anuncio/lista';">Meus Anúncios</button>
+      </div>
+       </form>
+     </div>
+     </div>
+<!-- Modal -->
+<div class="modal fade" id="excluirModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{ anuncio.marca }} {{ anuncio.modelo }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        {% csrf_token %}
+        <form method="POST" enctype="multipart/form-data">
+          <input type="image" id="image" name="image">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        <button type="button" class="btn btn-dark" onclick="location.href = '/anuncio/excluir/{{anuncio.slug2}}';">Confirmar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{%load static%}
+{% block title %}Editar Anúncio: {{anuncio.modelo}}{% endblock %}
+{%block content%}
+<div class="adm-bg">
+    <div id="moldura">
+      <div class="form-group text-center">
+        <h3>Editar An&uacute;ncio</h3>
+      </div>       
+       <form method="POST" enctype="multipart/form-data">
+        <div class="form-group text-center">
+          <h5>{{ anuncio.marca }} {{ anuncio.modelo }}</h5>
+        </div>
+       {% csrf_token %}
+        
+       {{ form|crispy }}
+        
+       <div style="display: flex; margin: 0 auto; justify-content:center; margin-bottom: 10px; border-bottom: solid 1px; border-bottom-color:#CCC;padding-bottom: 10px;flex-wrap: wrap; margin-top: 20px;">
+        <input type="hidden" name="marca" id="marca" value="{{ anuncio.marca }}">
+        <div id="bt"><input type="submit" value="Atualizar" class="btn btn-dark"></div>
+        <div id="bt"><button type="button" class="btn btn-dark" onclick="location.href = '/anuncio/lista';">Meus Anúncios</button></div>
+        <div id="bt"><a href="/anuncio/info/{{ anuncio.slug2 }}" class="btn btn-dark">Visualizar</a></div>
+        <div id="bt"><button type="button" class="btn btn-dark" data-toggle="modal" data-target="#excluirModal">Excluir</button></div> 
+        </div>
+       </form>
+     </div>
+     </div>
+
+<!-- Modal -->
+<div class="modal fade" id="excluirModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{ anuncio.marca }} {{ anuncio.modelo }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center">
+        <strong>Deseja excluir esse anúncio definitivamente?</strong><br>
+        Todas as informações referentes a esse anúncio serão perdidas!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        <button type="button" class="btn btn-dark" onclick="location.href = '/anuncio/excluir/{{anuncio.slug2}}';">Confirmar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+   </div>
+{%block script%} 
+<script src="{% static 'js/adm.js' %}" defer></script>
+{%endblock script%} 
+{% endblock %}

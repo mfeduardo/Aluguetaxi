@@ -1,0 +1,30 @@
+{%extends 'base.html'%}
+{%load static%}
+{% block title %}Anúncios{% endblock %}
+{%block content%}
+<div id="moldura" style="border: 0; width: 71%;">
+  <h3 style="padding: 0.2em;"  class="border-bottom">An&uacute;ncios | {{busca}} ({{ total }})</h3>
+    <br><br>
+    <div id="anuncios">   
+    {% for anuncio in anuncios%}
+    <div style="margin: 10px;">
+      <a href="/anuncio/detalhes/{{ anuncio.slug2 }}" style="text-decoration: none;">
+        <div class="card" style="width: 15rem;">
+          {% if anuncio.image %}
+          <img src="/media/{{anuncio.image}}" class="card-img-top" style="width: 100%; height: 150px;">
+          {% else %}
+          <img src="{% static 'img/sem-foto.jpg' %}" class="card-img-top" style="width: 85%; height: 200px; padding-left:15%">
+          {% endif %}
+          <div class="p-3 mb-2 text-white" style="background-color: #212121;">
+            <h6 class="card-title">{{ anuncio.marca }} {{ anuncio.modelo }}</h6>
+            <p class="card-text text-white">{{ anuncio.local_municipio }} - {{ anuncio.local_uf }}</p>
+            <p class="card-text text-white">R$ {{ anuncio.valor|floatformat:2 }}</p>           
+          </div>
+        </div>
+      </a>
+      </div>
+    {%endfor%}
+</div>
+</div>
+</div>
+{%endblock%}

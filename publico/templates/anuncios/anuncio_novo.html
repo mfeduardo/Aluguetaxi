@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{%load static%}
+{% load crispy_forms_tags %}
+{% block title %}Novo Anúncio{% endblock %}
+{%block content%}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<div class="adm-bg">
+    <div id="moldura">
+      <div class="form-group text-center">
+        <h3>Novo An&uacute;ncio</h3>
+      </div>             
+       <form method="POST" enctype="multipart/form-data">
+       {% csrf_token %}
+       {{ form|crispy }}
+       <div class="text-center">
+        <input type="hidden" name="marca" id="marca">
+         <input type="submit" value="Cadastrar" class="btn btn-dark">
+      </div>
+       </form>
+     </div>
+     </div>
+   </div>
+{%block script%} 
+<script src="{% static 'js/adm.js' %}" defer></script>
+{%endblock script%} 
+{% endblock %}

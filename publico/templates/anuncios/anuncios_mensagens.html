@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Mensagens{% endblock %}
+{%block content%}
+<div class="adm-bg">
+  <div id="moldura">
+    <h3>Conversas Relacionadas ({{total}})</h3><br>
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <li {% if message.tags %} class="alert alert-warning" role="alert"> {% endif %} {{ message }} </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="accordion" id="accordionMessage">
+      {%for conversa in conversas%}
+      <div class="card">
+        <div class="card-header text-white bg-dark" id="{{conversa.id}}">
+          <h2 class="mb-0">
+            <button class="btn btn-link btn-block text-left  text-white bg-dark" type="button" data-toggle="collapse"
+              data-target="#{{conversa.motorista_nome}}{{conversa.id}}" aria-expanded="false"
+              aria-controls="{{conversa.motorista_nome}}{{conversa.id}}">
+              {%if request.user.email == conversa.motorista_id%}
+              <b>{{conversa.nome}}</b> // {{conversa.proprietario_nome}}
+              {%else%}
+              <b>{{conversa.nome}}</b> // {{conversa.motorista_nome}}
+              {%endif%}
+            </button>
+          </h2>
+        </div>
+        <div id="{{conversa.motorista_nome}}{{conversa.id}}" class="collapse" aria-labelledby="{{conversa.id}}"
+          data-parent="#accordionMessage">
+          <div class="card-body">
+            {%for msg in msgs%}
+                
+                  {%if msg.conversa_id_id == conversa.id%}
+                    {%if request.user.email == msg.criador%}
+                        <div class="msgproprietario">
+                          {{msg.mensagem}}
+                          <p><i>{{request.user.first_name}}, {{msg.created_at|date:"d/m/Y"}}&nbsp;{{msg.created_at|time:"H:i"}}</i></p>
+                        </div>
+                        {%else%}
+                        <div class="msgmotorista">
+                          {{msg.mensagem}}
+                          <p>
+                            <i>{%if msg.criador == msg.proprietario_id%}{{msg.proprietario_nome}}{%else%}{{msg.motorista_nome}}{%endif%}, {{msg.created_at|date:"d/m/Y"}}&nbsp;{{msg.created_at|time:"H:i"}}</i>
+                          </p>
+                        </div>
+                    {%endif%}
+                  {%endif%}
+                
+            {%endfor%}
+            <p><i>Mensagem/Resposta:</i></p>
+            <form method="post">
+              {% csrf_token %}
+              <input type="hidden" value="{{conversa.anuncio_id_id}}" name="anuncio_id" id="anuncio_id">
+              <input type="hidden" value="{{conversa.motorista_id}}" name="motorista_id" id="motorista_id">
+              <input type="hidden" value="{{conversa.motorista_nome}}" name="motorista_nome" id="motorista_nome">
+              <input type="hidden" value="{{conversa.motorista_sobrenome}}" name="motorista_sobrenome" id="motorista_sobrenome">
+              <input type="hidden" value="{{conversa.proprietario_id}}" name="proprietario_id" id="proprietario_id">
+              <input type="hidden" value="{{conversa.proprietario_nome}}" name="proprietario_nome" id="proprietario_nome">
+              <input type="hidden" value="{{conversa.proprietario_sobrenome}}" name="proprietario_sobrenome" id="proprietario_sobrenome">
+              <input type="hidden" value="{{conversa.nome}}" name="nome" id="nome">
+              <input type="hidden" value="{{conversa.id}}" name="conversa_id" id="conversa_id">
+              <textarea id="mensagem" name="mensagem" style="width:100%"></textarea><br>
+              <button type="submit" class="btn btn-dark">
+                {%if request.user.email == conversa.motorista_id%}
+                Enviar Mensagem Para {{conversa.proprietario_nome}}
+                {%else%}
+                Enviar Mensagem Para {{conversa.motorista_nome}}
+                {%endif%}
+              </button>
+            </form><br>
+          </div>
+        </div>
+      </div>
+      {%endfor%}
+    </div>
+
+  </div>
+</div>
+{%endblock%}

@@ -1,0 +1,18 @@
+{%extends 'base.html'%}
+{%load static%}
+{% block title%}Editar Conta{% endblock %}
+{% load crispy_forms_tags %}
+{%block content%}
+<div id="moldura">
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="username">Nome</label>
+    <input type="text" id="username" name="username">
+    <br />
+    <label for="licenca">Licença</label>
+    <input type="text" id="licenca" name="licenca">
+    <br />
+    <input type="submit" value="Atualizar" class="btn btn-dark"> 
+  </form>
+</div>  
+{%endblock%}

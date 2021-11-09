@@ -1,0 +1,18 @@
+{%extends 'base.html'%}
+
+{%block content%}
+<div id="moldura">
+    <h2>Usuários</h2>
+    <br><br>
+    
+    {% for usuario in usuarios %}
+    <a style="text-decoration: none"
+        href="/usuario/info/{{ usuario.id }}">
+        <p>{{ usuario.nome }} {{ usuario.sobrenome }} - {{ usuario.email }}
+        </p>
+    </a>
+    {% endfor %}
+
+</div>
+</div>
+{%endblock%}

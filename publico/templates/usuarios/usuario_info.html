@@ -1,0 +1,57 @@
+{%extends 'base.html'%}
+{%load static%}
+{% block title%}Minha Conta{% endblock %}
+{%block content%}
+<div class="adm-bg">
+    <div id="moldura">
+      <div class="form-group text-center">
+        <h3>Minha Conta</h3>
+      </div>
+       <form class="adm-form" action={% url 'usuario-editar' %} method="GET">
+       <!--<h3><span style="color: #a0a0a0;">&nbsp;ALUGUE</span><span style="color: #FBC02D;">T&Aacute;XI</span> </h3>-->
+       <div class="form-group">
+        {% if usuario.image %}
+        <a href={% url 'usuario-editar' %}><img src="/media/{{usuario.image}}" class="rounded-circle" width="100px" height="100px" alt="Minha Imagem"></a>
+        {% else %}
+        <a href={% url 'usuario-editar' %}><img src="{% static 'img/avatar.jfif' %}" class="rounded-circle" width="100px" height="100px" alt="Minha Imagem"></a>
+        {% endif %} 
+      </div>  
+      <!--<h2>Meu Perfil </h2>-->
+       <div class="form-group">
+           <a href={% url 'usuario-editar' %}><p><strong>Nome: </strong>{{ usuario.first_name }}</p></a>
+         </div>
+         <div class="form-group">
+           <a href={% url 'usuario-editar' %}><p><strong>Sobrenome: </strong>{{ usuario.last_name }}</p></a>
+         </div>
+         <div class="form-group">
+           <a href={% url 'usuario-editar' %}><p><strong>Email: </strong>{{ usuario.email }}</p></a>
+         </div>
+         <div class="form-group">
+           <a href={% url 'usuario-editar' %}><p><strong>Telefone: </strong>{%if usuario.telefone%}{{ usuario.telefone }}{%endif%}</p></a>
+         </div>
+         <div class="form-group">
+           <a href={% url 'usuario-editar' %}><p><strong>CPF: </strong>{%if usuario.cpf%}{{ usuario.cpf }}{%endif%}</p></a>
+         </div>
+         <div class="form-group">
+           <a href={% url 'usuario-editar' %}><p><strong>Licença: </strong>{%if usuario.licenca%}{{ usuario.licenca }}{%endif%}</p></a>
+         </div>
+         <div class="form-group">
+           <a href={% url 'usuario-editar' %}><p><strong>Estado/UF: </strong>{%if usuario.uf%}{{ usuario.uf }}{%endif%}</p></a>
+         </div>
+         <div class="form-group">
+           <a href={% url 'usuario-editar' %}><p><strong>Cidade: </strong>{%if usuario.cidade%}{{ usuario.cidade }}{%endif%}</p></a>
+         </div>
+         <div class="form-group" style="margin-bottom: 20px;">
+           <a href={% url 'usuario-editar' %}><p><strong>Coment&aacute;rio: </strong>{%if usuario.sobre%}{{ usuario.sobre }}{%endif%}</p></a>
+         </div>
+         <div class="form-group" style="margin-bottom: 20px;">
+          <a href="/accounts/password/change/"><p><strong>Alterar Senha</strong></p></a>
+        </div>
+
+         <input type="submit" value="Editar">
+
+       </form>
+     </div>
+     </div>
+   </div>
+{%endblock%}

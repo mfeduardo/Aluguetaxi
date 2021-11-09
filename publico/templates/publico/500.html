@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{%load static%}
+{% load crispy_forms_tags %}
+{% block title %}Novo Anúncio{% endblock %}
+{%block content%}
+<div id="moldura" class="text-center">
+<h1>Ops! Algo deu errado!</h1>
+<p>Tente novamente daqui alguns instantes.</p>
+<br>
+<button type="button" class="btn btn-dark" onclick="location.href = 'javascript:history.back()';">Voltar</button>
+</div>
+{% endblock %}

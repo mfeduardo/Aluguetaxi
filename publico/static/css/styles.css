@@ -682,6 +682,11 @@ ul.messages li {
     }
 
 @media screen and (max-width: 811px) {
+
+    #main-banner{
+        background-size: 130% 100%; /* para preencher ao máximo */
+        background-position: 40% 60%; /* para imagem aparecer a partir da parte de cima: posicionamento top-body*/
+    }
     
     #moldura {
         width: 94%;
@@ -702,6 +707,8 @@ ul.messages li {
     #moldura {
         width: 94%;
     }
+    
+    
     
     .at{
         display: none;
@@ -734,6 +741,11 @@ ul.messages li {
 @media screen and (max-width: 490px) {
     .search-form2 input{
         width: 195px;
+    }
+    
+    #main-banner{
+        background-size: 240% 100%; /* para preencher ao máximo */
+        background-position: 30% 10%; /* para imagem aparecer a partir da parte de cima: posicionamento top-body*/
     }
     
     .search-form input[type=submit]{

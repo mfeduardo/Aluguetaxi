@@ -4,6 +4,15 @@
 {%block content%}
 <div class="adm-bg">
     <div id="moldura">
+      {% if messages %}
+      <ul class="messages">
+        {%for message in messages%}
+        {%if message.level == 50%}
+        <li {% if message.tags %} class="alert alert-warning" role="alert"> {% endif %} {{ message }}</li>
+        {%endif%}
+        {%endfor%}
+      </ul>
+      {% endif %}
       <div class="form-group text-center">
         <h3>Minha Conta</h3>
       </div>

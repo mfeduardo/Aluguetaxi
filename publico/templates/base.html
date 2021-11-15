@@ -23,7 +23,7 @@
         <header id="header">
             <div id="logotxt">
                 <a href="/">
-                    <i class="fas fa-taxi" style="font-size: 24px;"></i><span class="at"
+                    <i class="fas fa-taxi" style="font-size: 24px;"></i><span class="at" 
                         style="color: #BDBDBD;">&nbsp;ALUGUE</span><span class="at"
                         style="color: #FBC02D;">T&Aacute;XI</span>
                 </a>
@@ -32,20 +32,12 @@
                 {%if not searchbox%}
                 <div class="search-form2">
                     <form name='search' action='/anuncios' method="GET" id="search">
-                        <!--<input type="select" name="busca" id="busca" placeholder="Cidade...">-->
                         <div style="display: flex; justify-content: center; flex-wrap:nowrap ;">
-                            <div style="margin-right: 5px;">
-                                <!--<select name="busca" id="busca">
-                        <option value="" disabled selected hidden>Cidade...</option>
-                        {%for cidade in cidades%}
-                        <option {%if cidade.cidade == user.cidade%}selected="selected"{%endif%} value="{{cidade.cidade}}">{{cidade.cidade}} ({{cidade.uf}})</option>
-                        {%endfor%} 
-                      </select>-->
+                            <div style="margin-right: 5px;">                     
                                 <input type="text" name="busca" id="busca" placeholder="Cidade...">
                             </div>
                             <div><button type="submit" id="submit"><i class="fa fa-search fa-rotate-90"
                                         style="font-size: 22px;"></i></button></div>
-                            <!--<div><input type="submit" id="submit" value="Buscar"><i class="fa fa-search fa-rotate-90" style="font-size: 24px; color: #fff;"></i></input></div>-->
                         </div>
                     </form>
                 </div>

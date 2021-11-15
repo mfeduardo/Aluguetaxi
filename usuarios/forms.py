@@ -13,7 +13,6 @@ class UserChangeForm(forms.UserChangeForm):
         fields=(
             "first_name",
             "last_name",
-            "email",
             "telefone",
             "cpf",
             "licenca",

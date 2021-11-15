@@ -151,7 +151,7 @@ def anuncioLista(request):
 @login_required
 def anuncioNovo(request):    
 
-    if not(request.user.cpf or request.user.cidade):
+    if not(request.user.cidade):
         return redirect('/usuario/editar')
 
     if request.method=='POST':

@@ -6,13 +6,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <div class="adm-bg">
     <div id="moldura">
-      {% if messages %}
-      <ul class="messages">
-        {%for message in messages%}
-        {%if message.level == 50%}
-        <li {% if message.tags %} class="alert alert-warning" role="alert"> {% endif %} {{ message }}</li>
-        {%endif%}
-        {%endfor%}
+      {% if mensagem %}
+      <ul class="messages">       
+        <li class="alert alert-warning" role="alert">{{ mensagem }}</li>
       </ul>
       {% endif %}
       <div class="form-group text-center">

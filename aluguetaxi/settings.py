@@ -199,6 +199,5 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
 django_heroku.settings(locals())

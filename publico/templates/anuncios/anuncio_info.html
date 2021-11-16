@@ -75,9 +75,9 @@
             aria-expanded="true" aria-controls="collapseExample">
             Conversas ({{total}})
           </button></div>
-        <div id="bt"><button type="button" class="btn btn-dark"
+          {%if anuncio.anuncio_fim <= data%}<div id="bt"><button type="button" class="btn btn-dark"
             onclick="location.href = '/anuncio/ativar/{{anuncio.slug2}}';">Anunciar</button>
-        </div>
+        </div>{%endif%}
       </div>
     </form>
 
@@ -117,12 +117,8 @@
         </form><br>
       </div>
       {%endfor%}
-
-
     </div>
-
   </div>
 </div>
 </div>
-
 {%endblock%}

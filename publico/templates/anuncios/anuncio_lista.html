@@ -34,7 +34,7 @@
     style="display: flex; margin: 0 auto; justify-content:center; margin-bottom: 10px; border-bottom: solid 1px; border-bottom-color:#CCC;padding-bottom: 10px;">
     <a href="/anuncio/editar/{{ anuncio.slug2 }}" class="btn btn-dark linkma">Editar</a>
     <a href="/anuncio/info/{{ anuncio.slug2 }}" class="btn btn-dark linkma">Visualizar</a>
-    <a href="/anuncio/ativar/{{ anuncio.slug2 }}" class="btn btn-dark linkma">Ativar</a>
+    {%if anuncio.anuncio_fim <= data%}<a href="/anuncio/ativar/{{ anuncio.slug2 }}" class="btn btn-dark linkma">Anunciar</a>{%endif%}
   </div>
   {%endfor%}
 </div>

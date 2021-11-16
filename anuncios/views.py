@@ -1,4 +1,5 @@
 from os import read
+from django.db.models.fields import NullBooleanField
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Anuncio, AnuncioFoto, AnuncioCidade, Conversa, Mensagem
@@ -151,7 +152,7 @@ def anuncioLista(request):
 @login_required
 def anuncioNovo(request):    
 
-    if not(request.user.cidade):
+    if not(request.user.cidade == NullBooleanField):
         return redirect('/usuario/editar')
 
     if request.method=='POST':

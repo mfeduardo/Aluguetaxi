@@ -11,7 +11,7 @@ SUCESSO = 50 #messages_tag
 def usuarioInfo(request):
     usuario = request.user
     
-    if not (request.user.cidade):
+    if not(request.user.cpf or request.user.cidade):
             messages.add_message (request, SUCESSO, 'Atualize suas informações de conta para poder cadastrar um anúncio ou trocar mensagens com outros usuários.')
     return render(request, "usuarios/usuario_info.html", { 'usuario': usuario  })
 
@@ -40,7 +40,7 @@ def usuarioEditar(request):
             return render(request, "usuarios/usuario_editar.html", { 'form': form, 'usuario': usuario })
 
     else:  
-        if not (request.user.cidade):
+        if not(request.user.cpf or request.user.cidade):
             messages.add_message (request, SUCESSO, 'Atualize suas informações de conta para poder cadastrar um anúncio ou trocar mensagens com outros usuários.')
         return render(request, "usuarios/usuario_editar.html", { 'form': form, 'usuario': usuario })
 

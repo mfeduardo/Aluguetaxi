@@ -69,6 +69,9 @@ def anuncioDetalhes(request, slug2):
         print(type(total))
     if request.method == 'POST':
 
+        if not(request.user.cpf or request.user.cidade):
+            return redirect('/usuario/editar')
+
         form = ConversaForm(request.POST)
 
         if form.is_valid():

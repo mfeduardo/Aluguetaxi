@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 from pytz import timezone
 from django.contrib.postgres.search import SearchVector
 from django.db.models import Q
-from django.core.mail import send_mail
+from django.core.mail import send_mail, send_mass_mail
 from django.core.mail import EmailMultiAlternatives
 
 SUCESSO = 50  # messages_tag
@@ -84,7 +84,7 @@ def anuncioDetalhes(request, slug2):
                 text_content = request.POST['mensagem']
                 html_content = '<strong><span style="color: #BDBDBD;">ALUGUE</span><span class="at" style="color: #FBC02D;">TÁXI</span></strong><br><br>' + mensagem_p1 + \
                     '"' + request.POST['mensagem'] + '"<br><br>De: ' + request.user.first_name + \
-                    '<br><br>http://localhost:8000/anuncio/mensagens' + mensagem_p2
+                    '<br><br>https://www.aluguetaxi.com.br/anuncio/mensagens' + mensagem_p2
                 msg = EmailMultiAlternatives(
                     assunto, text_content, 'contato@aluguetaxi.com.br', [email])
                 msg.attach_alternative(html_content, "text/html")
@@ -432,10 +432,15 @@ def anuncioAtivar(request, slug2):
             msg.attach_alternative(html_content, "text/html")
             msg.send()
 
+            message1 = (assunto, 'Existe uma nova promoção para sua região', 'contato@aluguetaxi.com.br', ['duda604@gmail.com'])
+            message2 = (assunto, 'Existe uma nova promoção para sua região', 'contato@aluguetaxi.com.br', ['duda604@gmail.com', 'duda604@hotmail.com','mf.eduardo@yahoo.com.br'])
+            send_mass_mail((message1, message2), fail_silently=False)
+
             messages.info(request,  anuncio.marca + ' ' + anuncio.modelo +
                           ' | Período do Anúncio: ' + data_inicio + ' - ' + data_fim)
+
         else:
-            messages.info(request, anuncio.marca + ' ' + anuncio.modelo +' | Anúncio fora do período de promoção! Próxima Promoção: ' + retornaData(datetime.now().astimezone(fuso_horario)+promo))
+            messages.info(request, anuncio.marca + ' ' + anuncio.modelo +' | Anúncio fora do período de promoção! Próxima Promoção: ' + retornaData(datetime.now().astimezone(fuso_horario)+promo+timedelta(days=1)))
             return redirect('/anuncio/lista')
 
     return redirect('/anuncio/lista')

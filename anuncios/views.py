@@ -428,13 +428,19 @@ def anuncioAtivar(request, slug2):
             html_content = '<strong><span style="color: #BDBDBD;">ALUGUE</span><span class="at" style="color: #FBC02D;">TÁXI</span></strong><br><br>' + mensagem_p1 + mensagem_p2
 
             msg = EmailMultiAlternatives(
-                assunto, text_content, 'contato@aluguetaxi.com.br', [email])
+                assunto, text_content, 'contato@aluguetaxi.com.br', [email],['duda604@hotmail.com', 'mf.eduardo@yahoo.com'])
             msg.attach_alternative(html_content, "text/html")
             msg.send()
 
-            message1 = (assunto, 'Existe uma nova promoção para sua região', 'contato@aluguetaxi.com.br', ['duda604@gmail.com'])
-            message2 = (assunto, 'Existe uma nova promoção para sua região', 'contato@aluguetaxi.com.br', ['duda604@gmail.com', 'duda604@hotmail.com','mf.eduardo@yahoo.com.br'])
-            send_mass_mail((message1, message2), fail_silently=False)
+            #message1 = (assunto, 'Existe uma nova promoção para sua região', 'contato@aluguetaxi.com.br', ['duda604@gmail.com'])
+            #message2 = (assunto, 'Existe uma nova promoção para sua região', 'contato@aluguetaxi.com.br', ['duda604@hotmail.com'], ['duda@hotmail.com'])
+            #send_mass_mail((message1, message2), fail_silently=False)
+            
+            #datatuple = (
+            #(assunto, 'Existe uma nova promoção para sua região', 'contato@aluguetaxi.com.br', ['duda604@gmail.com']),
+            #(assunto, 'Existe uma nova promoção para sua região', 'contato@aluguetaxi.com.br', ['duda604@hotmail.com']),
+            #)
+            #send_mass_mail(datatuple)
 
             messages.info(request,  anuncio.marca + ' ' + anuncio.modelo +
                           ' | Período do Anúncio: ' + data_inicio + ' - ' + data_fim)

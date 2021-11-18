@@ -12,7 +12,7 @@ from django.core.mail import EmailMultiAlternatives
 
 SUCESSO = 50  # messages_tag
 
-host = 'https://www.aluguetaxi.com.br'
+host = 'https://aluguetaxi.herokuapp.com'
 
 fuso_horario = timezone('America/Sao_Paulo')
 

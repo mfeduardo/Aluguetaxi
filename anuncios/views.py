@@ -12,7 +12,10 @@ from django.core.mail import EmailMultiAlternatives
 
 SUCESSO = 50  # messages_tag
 
+host = 'https://www.aluguetaxi.com.br'
+
 fuso_horario = timezone('America/Sao_Paulo')
+
 
 def verificaDataAnuncio(dataReferencia):
 
@@ -31,6 +34,7 @@ def verificaDataAnuncio(dataReferencia):
 
     return anuncioValido
 
+
 def retornaData(dataReferencia):
     data = str(dataReferencia)
     data = data[0:10]
@@ -39,6 +43,7 @@ def retornaData(dataReferencia):
     return data
 
 # Público
+
 
 def anuncios(request):
     busca = request.GET.get('busca')
@@ -84,7 +89,8 @@ def anuncioDetalhes(request, slug2):
                 text_content = request.POST['mensagem']
                 html_content = '<strong><span style="color: #BDBDBD;">ALUGUE</span><span class="at" style="color: #FBC02D;">TÁXI</span></strong><br><br>' + mensagem_p1 + \
                     '"' + request.POST['mensagem'] + '"<br><br>De: ' + request.user.first_name + \
-                    '<br><br>https://www.aluguetaxi.com.br/anuncio/mensagens' + mensagem_p2
+                    '<br><br><a href="' + host + '/anuncio/mensagens">' + \
+                    host + '/anuncio/mensagens</a>' + mensagem_p2
                 msg = EmailMultiAlternatives(
                     assunto, text_content, 'contato@aluguetaxi.com.br', [email])
                 msg.attach_alternative(html_content, "text/html")
@@ -160,6 +166,7 @@ def anuncioDetalhes(request, slug2):
 
 # Usuários
 
+
 @login_required
 def anuncioLista(request):
     anuncios = Anuncio.objects.order_by(
@@ -168,6 +175,7 @@ def anuncioLista(request):
     data = datetime.now().astimezone(fuso_horario)
 
     return render(request, 'anuncios/anuncio_lista.html', {'anuncios': anuncios, 'total': total, 'data': data})
+
 
 @login_required
 def anuncioNovo(request):
@@ -205,6 +213,7 @@ def anuncioNovo(request):
     else:
         form = AnuncioForm()
         return render(request, 'anuncios/anuncio_novo.html', {'form': form})
+
 
 @login_required
 def anuncioInfo(request, slug2):
@@ -257,6 +266,7 @@ def anuncioInfo(request, slug2):
     else:
         return redirect('/anuncio/lista')
 
+
 @login_required
 def anuncioEditar(request, slug2):
     anuncio = get_object_or_404(Anuncio, slug2=slug2)
@@ -284,6 +294,7 @@ def anuncioEditar(request, slug2):
             return render(request, "anuncios/anuncio_editar.html", {'form': form, 'anuncio': anuncio})
         else:
             return redirect('/anuncio/lista')
+
 
 @login_required
 def anuncioMensagens(request):
@@ -333,7 +344,8 @@ def anuncioMensagens(request):
             text_content = request.POST['mensagem']
             html_content = '<strong><span style="color: #BDBDBD;">ALUGUE</span><span class="at" style="color: #FBC02D;">TÁXI</span></strong><br><br>' + mensagem_p1 + \
                 '"' + request.POST['mensagem'] + '"<br><br>De: ' + request.user.first_name + \
-                '<br><br>https://www.aluguetaxi.com.br/anuncio/mensagens' + mensagem_p2
+                '<br><br><a href="' + host + '/anuncio/mensagens">' + \
+                host + '/anuncio/mensagens</a>' + mensagem_p2
             msg = EmailMultiAlternatives(
                 assunto, text_content, 'contato@aluguetaxi.com.br', [email])
             msg.attach_alternative(html_content, "text/html")
@@ -351,6 +363,7 @@ def anuncioMensagens(request):
 
         return render(request, 'anuncios/anuncios_mensagens.html', {'conversas': conversas, 'msgs': msgs, 'total': total})
 
+
 @login_required
 def anuncioExluir(request, slug2):
     anuncio = get_object_or_404(Anuncio, slug2=slug2)
@@ -360,6 +373,7 @@ def anuncioExluir(request, slug2):
                   anuncio.marca + ' ' + anuncio.modelo)
 
     return redirect('/anuncio/lista')
+
 
 @login_required
 def fotoExluir(request, slug2, id):
@@ -374,6 +388,7 @@ def fotoExluir(request, slug2, id):
         messages.info(request,  'Não foi possível excluir esta foto!')
 
     return redirect('/anuncio/fotos/' + slug2)
+
 
 @login_required
 def uploadFotos(request, slug2):
@@ -398,6 +413,7 @@ def uploadFotos(request, slug2):
     else:
         return redirect('/anuncio/lista')
 
+
 @login_required
 def anuncioAtivar(request, slug2):
     # Ativar Promoção
@@ -407,7 +423,7 @@ def anuncioAtivar(request, slug2):
         # Verifica se já tem mais de 30 dias desde a última promoção
         data_ref = datetime.now().astimezone(fuso_horario) - anuncio.anuncio_fim
         promo = timedelta(days=30) - (data_ref)
-        
+
         if data_ref > timedelta(days=30):
 
             anuncio.anuncio_inicio = datetime.now().astimezone(fuso_horario)
@@ -419,8 +435,8 @@ def anuncioAtivar(request, slug2):
 
             mensagem_p1 = 'Olá, a sua promoção mensal de anúncio foi ativada <strong>(7 dias grátis)!</strong><br><br>' + '- Período de exibição do anúncio: de ' + data_inicio + ' - ' + data_fim + \
                 '<br><br>- Seus anúncios podem ser renovados para um novo período de 15 dias, sempre que você precisar. Basta ir na sessão Meus Anúncios do nosso site e reativar qualquer anúncio cadastrado anteriormente, mediante pagamento de uma nova taxa de R$ 15,00 (valor atual) por anúncio.'
-            mensagem_p2 = '<br><br>- As informações cadastradas para o seu anúncio podem ser editadas a qualquer tempo, sempre que você achar necessário, basta ir na sessão Meus Anúncios do nosso site.<br><br>- Link para o seu anúncio: http://localhost:8000/anuncio/detalhes/' + \
-                slug2 + '<br><br>Agradecemos por utilizar nossos serviços,<br><br>Equipe AlugueTáxi.'
+            mensagem_p2 = '<br><br>- As informações cadastradas para o seu anúncio podem ser editadas a qualquer tempo, sempre que você achar necessário, basta ir na sessão Meus Anúncios do nosso site.<br><br>- Link para o seu anúncio: <a href="' + host + '/anuncio/detalhes/' + slug2 + '">' + host + '/anuncio/detalhes/' + \
+                slug2 + '</a><br><br>Agradecemos por utilizar nossos serviços,<br><br>Equipe AlugueTáxi.'
 
             email = request.user.email
             assunto = 'AlugueTáxi | Promoção Mensal Ativada | ' + slug2
@@ -428,25 +444,26 @@ def anuncioAtivar(request, slug2):
             html_content = '<strong><span style="color: #BDBDBD;">ALUGUE</span><span class="at" style="color: #FBC02D;">TÁXI</span></strong><br><br>' + mensagem_p1 + mensagem_p2
 
             msg = EmailMultiAlternatives(
-                assunto, text_content, 'contato@aluguetaxi.com.br', [email],['duda604@hotmail.com', 'mf.eduardo@yahoo.com'])
+                assunto, text_content, 'contato@aluguetaxi.com.br', [email], ['duda604@hotmail.com', 'mf.eduardo@yahoo.com'])
             msg.attach_alternative(html_content, "text/html")
             msg.send()
 
             #message1 = (assunto, 'Existe uma nova promoção para sua região', 'contato@aluguetaxi.com.br', ['duda604@gmail.com'])
             #message2 = (assunto, 'Existe uma nova promoção para sua região', 'contato@aluguetaxi.com.br', ['duda604@hotmail.com'], ['duda@hotmail.com'])
             #send_mass_mail((message1, message2), fail_silently=False)
-            
-            #datatuple = (
+
+            # datatuple = (
             #(assunto, 'Existe uma nova promoção para sua região', 'contato@aluguetaxi.com.br', ['duda604@gmail.com']),
             #(assunto, 'Existe uma nova promoção para sua região', 'contato@aluguetaxi.com.br', ['duda604@hotmail.com']),
-            #)
-            #send_mass_mail(datatuple)
+            # )
+            # send_mass_mail(datatuple)
 
             messages.info(request,  anuncio.marca + ' ' + anuncio.modelo +
                           ' | Período do Anúncio: ' + data_inicio + ' - ' + data_fim)
 
         else:
-            messages.info(request, anuncio.marca + ' ' + anuncio.modelo +' | Anúncio fora do período de promoção! Próxima Promoção: ' + retornaData(datetime.now().astimezone(fuso_horario)+promo+timedelta(days=1)))
+            messages.info(request, anuncio.marca + ' ' + anuncio.modelo + ' | Anúncio fora do período de promoção! Próxima Promoção: ' +
+                          retornaData(datetime.now().astimezone(fuso_horario)+promo+timedelta(days=1)))
             return redirect('/anuncio/lista')
 
     return redirect('/anuncio/lista')

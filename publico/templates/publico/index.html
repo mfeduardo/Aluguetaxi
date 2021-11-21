@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base_02.html' %}
 
 {% block title %}AlugueTáxi{% endblock %}
 
@@ -9,14 +9,8 @@
         <p>Conecte-se de forma gratuita e encontre os melhores táxis para alugar em sua cidade
             <br><b>Anuncie seu táxi em nosso site</b></p>
             <form name='search' action='/anuncios' method="GET" id="search">
-                <!--<input type="select" name="busca" id="busca" placeholder="Cidade...">-->
                 <div style="display: flex; justify-content: center; flex-wrap: wrap;">
-                <div style="margin-right: 5px;"><!--<select name="busca" id="busca">
-                    <option value="" disabled selected hidden>Cidade...</option>
-                    {%for cidade in cidades%}
-                    <option {%if cidade.cidade == user.cidade%}selected="selected"{%endif%} value="{{cidade.cidade}}">{{cidade.cidade}} ({{cidade.uf}})</option>
-                    {%endfor%} 
-                  </select>-->
+                <div style="margin-right: 5px;">
                   <input type="text" name="busca" id="busca" placeholder="Cidade...">
                 </div>
                 <div><input type="submit" id="submit" value="Buscar"></div>
@@ -54,7 +48,7 @@
         <p>
         <i class="fas fa-taxi" style="color: #000;"></i>
         <i class="fas fa-hand-holding-usd" style="color: #000; margin-left: 40px"></i>
-        <br><br><br><input type="button" value="Cadastrar meu Táxi" class="btx">
+        <br><br><br><input type="button" value="Cadastrar meu Táxi" class="btx" onclick="window.location.href='/anuncio/novo'">
         </p>
     </div>
 </div>

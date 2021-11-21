@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title%} {% endblock %}</title>
+    <link rel="shortcut icon" href="{% static 'img/txico.png' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+        integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+
+<body>
+    <div class="container-at">
+        <header id="header">
+            <div id="logotxt">
+                <a href="/">
+                    <i class="fas fa-taxi" style="font-size: 24px;"></i><span
+                        style="color: #BDBDBD;">&nbsp;ALUGUE</span><span style="color: #FBC02D;">T&Aacute;XI</span>
+                </a>
+            </div>
+            <nav id="nav">
+
+                <button id="btn-mobile" aria-expanded="false" aria-haspopup="true" aria-label="Abrir Menu">
+                    <span id="hamburger"></span>
+                </button>
+                <ul id="menu" role="menu">
+                    {% if user.is_authenticated %}
+                    <li><a href="/">IN&Iacute;CIO</a></li>
+                    <li><a href="/anuncio/lista">MEUS AN&Uacute;NCIOS</a></li>
+                    <li><a href="/anuncio/novo">NOVO AN&Uacute;NCIO</a></li>
+                    <li><a href="/anuncio/mensagens">MENSAGENS</a></li>
+                    <li><a href="/usuario/info">MINHA CONTA</a></li>
+                    <li><a href="/logout_page">SAIR</a></li>
+                    {% else %}
+                    <li><a href="/accounts/login">ENTRAR</a></li>
+                    <li><a href="/accounts/signup">CADASTRAR</a></li>
+                    {% endif %}
+                </ul>
+                <div id="avatar">
+                    {% if user.is_authenticated %}
+                    {%if user.image%}
+                    <a href={% url 'usuario-info' %}><img src="/media/{{user.image}}" class="rounded-circle"
+                            width="45px" height="45px" alt="Minha Imagem" style="margin-left: 8px;"></a>
+                    {% else %}
+                    <a href={% url 'usuario-info' %}><img src="{% static 'img/avatar.jfif' %}" class="rounded-circle"
+                            width="45px" height="45px" alt="Minha Imagem" style="margin-left: 8px;"></a>
+                    {%endif%}
+                    {% endif %}
+                </div>
+            </nav>
+        </header>
+        {% block content %}
+        {% endblock %}
+        <footer>
+            <div class="rodape">
+                <ul>
+                    <li>
+                        <div id="logotxt" style="margin-left: 0; position: relative;">
+                            <a href="/"><i class="fas fa-taxi" style="font-size: 24px;"></i><span
+                                    style="color: #BDBDBD;">&nbsp;ALUGUE</span><span
+                                    style="color: #FBC02D;">T&Aacute;XI</span></a>
+                        </div>
+                    </li>
+                    <li><a href="/">Página Inicial</a></li>
+                    <li><a href="/comofunciona">Como Funciona</a></li>
+                    <li><a href="/termos">Termos de Uso</a></li>
+                    <li><a href="/politica">Política de Privacidade</a></li>
+                    <li><a href="/regras">Regras Para Anúncios</a></li>
+                    <li><a href="/contato">Fale Conosco</a></li>
+                </ul>
+            </div>
+        </footer>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+        crossorigin="anonymous"></script>
+
+    <script src="{% static 'js/main.js' %}" defer></script>
+    {%block script%}
+    {%endblock script%}
+</body>
+
+</html>

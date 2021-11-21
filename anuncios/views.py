@@ -16,7 +16,6 @@ host = 'https://aluguetaxi.herokuapp.com'
 
 fuso_horario = timezone('America/Sao_Paulo')
 
-
 def verificaDataAnuncio(dataReferencia):
 
     dataVencimento = str(dataReferencia)

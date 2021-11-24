@@ -455,7 +455,7 @@ def anuncioAtivar(request, slug2):
             msg.send()
 
             message1 = (assunto, 'Existe uma nova promoção para sua região', 'contato@aluguetaxi.com.br', ['duda604@gmail.com'])
-            message2 = (assunto, 'Existe uma nova promoção para sua região', 'contato@aluguetaxi.com.br', [ue])
+            message2 = (assunto, 'Existe uma nova promoção para sua região', 'contato@aluguetaxi.com.br', ue)
             send_mass_mail((message1, message2), fail_silently=False)
 
             # datatuple = (

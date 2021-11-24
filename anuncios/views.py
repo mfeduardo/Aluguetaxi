@@ -450,7 +450,7 @@ def anuncioAtivar(request, slug2):
             html_content = '<strong><span style="color: #BDBDBD;">ALUGUE</span><span class="at" style="color: #FBC02D;">TÁXI</span></strong><br><br>' + mensagem_p1 + mensagem_p2
 
             msg = EmailMultiAlternatives(
-                assunto, text_content, 'contato@aluguetaxi.com.br', [email], [email, ue])
+                assunto, text_content, 'contato@aluguetaxi.com.br', [email])
             msg.attach_alternative(html_content, "text/html")
             msg.send()
 

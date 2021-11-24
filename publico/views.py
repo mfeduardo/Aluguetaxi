@@ -8,8 +8,7 @@ from django.contrib.auth import logout
 
 def index(request):
     cidades = AnuncioCidade.objects.order_by('uf','cidade')
-    searchbox=True
-    return render(request, 'publico/index.html', { 'cidades': cidades, 'searchbox': searchbox})
+    return render(request, 'publico/index.html', { 'cidades': cidades })
 
 def politica(request):
     return render(request, 'publico/politica.html')
@@ -34,13 +33,6 @@ def contato(request):
         msg = EmailMultiAlternatives(assunto, text_content, 'contato@aluguetaxi.com.br', ['contato@aluguetaxi.com.br'])
         msg.attach_alternative(html_content, "text/html")
         msg.send()
-
-        #send_mail (
-        #    assunto, menssagem, 
-         #   email,#settings.EMAIL_HOST_USER,
-
-          #  ['contato@aluguetaxi.com'], 
-          #  fail_silently=True)
 
     return render(request, 'publico/contato.html')
 

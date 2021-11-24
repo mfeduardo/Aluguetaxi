@@ -29,7 +29,6 @@
                 </a>
             </div>
             <nav id="nav">
-                {%if not searchbox%}
                 <div class="search-form2">
                     <form name='search' action='/anuncios' method="GET" id="search">
                         <div style="display: flex; justify-content: center; flex-wrap:nowrap ;">
@@ -41,7 +40,6 @@
                         </div>
                     </form>
                 </div>
-                {%endif%}
                 <button id="btn-mobile" aria-expanded="false" aria-haspopup="true" aria-label="Abrir Menu">
                     <span id="hamburger"></span>
                 </button>

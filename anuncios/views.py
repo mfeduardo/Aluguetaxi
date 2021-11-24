@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Anuncio, AnuncioFoto, AnuncioCidade, Conversa, Mensagem
 from .forms import AnuncioForm, AnuncioFotoForm, ConversaForm, MensagemForm
+from usuarios.models import Usuario
 from django.contrib import messages
 from datetime import datetime, timedelta
 from pytz import timezone
@@ -15,6 +16,7 @@ SUCESSO = 50  # messages_tag
 host = 'https://aluguetaxi.herokuapp.com'
 
 fuso_horario = timezone('America/Sao_Paulo')
+
 
 def verificaDataAnuncio(dataReferencia):
 
@@ -355,7 +357,6 @@ def anuncioMensagens(request):
             messages.add_message(
                 request, SUCESSO, 'As perguntas também são enviadas para o e-mail do usuário.')
 
-            # return render(request, "anuncios/anuncio_info.html", {'anuncio':anuncio, 'img':img, 'conversas': conversaReferencia, 'msgs': msgs, 'total': total})
             return render(request, 'anuncios/anuncios_mensagens.html', {'conversas': conversas, 'msgs': msgs, 'total': total})
 
     else:
@@ -419,12 +420,13 @@ def anuncioAtivar(request, slug2):
     anuncio = get_object_or_404(Anuncio, slug2=slug2)
 
     if (anuncio.id_usr == request.user):
-        # Verifica se já tem mais de 30 dias desde a última promoção
+        
         data_ref = datetime.now().astimezone(fuso_horario) - anuncio.anuncio_fim
         promo = timedelta(days=30) - (data_ref)
-
+        
+        # Verifica se já tem mais de 30 dias desde a última promoção
         if data_ref > timedelta(days=30):
-
+            
             anuncio.anuncio_inicio = datetime.now().astimezone(fuso_horario)
             anuncio.anuncio_fim = datetime.now().astimezone(fuso_horario)+timedelta(days=7)
             anuncio.save()
@@ -432,6 +434,11 @@ def anuncioAtivar(request, slug2):
             data_inicio = retornaData(anuncio.anuncio_inicio)
             data_fim = retornaData(anuncio.anuncio_fim)
 
+            ue=[]    
+            usuarios = Usuario.objects.filter(cidade=anuncio.local_municipio)
+            for u in usuarios:
+                ue.append(u.email)
+                        
             mensagem_p1 = 'Olá, a sua promoção mensal de anúncio foi ativada <strong>(7 dias grátis)!</strong><br><br>' + '- Período de exibição do anúncio: de ' + data_inicio + ' - ' + data_fim + \
                 '<br><br>- Seus anúncios podem ser renovados para um novo período de 15 dias, sempre que você precisar. Basta ir na sessão Meus Anúncios do nosso site e reativar qualquer anúncio cadastrado anteriormente, mediante pagamento de uma nova taxa de R$ 15,00 (valor atual) por anúncio.'
             mensagem_p2 = '<br><br>- As informações cadastradas para o seu anúncio podem ser editadas a qualquer tempo, sempre que você achar necessário, basta ir na sessão Meus Anúncios do nosso site.<br><br>- Link para o seu anúncio: <a href="' + host + '/anuncio/detalhes/' + slug2 + '">' + host + '/anuncio/detalhes/' + \
@@ -443,13 +450,13 @@ def anuncioAtivar(request, slug2):
             html_content = '<strong><span style="color: #BDBDBD;">ALUGUE</span><span class="at" style="color: #FBC02D;">TÁXI</span></strong><br><br>' + mensagem_p1 + mensagem_p2
 
             msg = EmailMultiAlternatives(
-                assunto, text_content, 'contato@aluguetaxi.com.br', [email], ['duda604@hotmail.com', 'mf.eduardo@yahoo.com'])
+                assunto, text_content, 'contato@aluguetaxi.com.br', [email], [email, ue])
             msg.attach_alternative(html_content, "text/html")
             msg.send()
 
-            #message1 = (assunto, 'Existe uma nova promoção para sua região', 'contato@aluguetaxi.com.br', ['duda604@gmail.com'])
-            #message2 = (assunto, 'Existe uma nova promoção para sua região', 'contato@aluguetaxi.com.br', ['duda604@hotmail.com'], ['duda@hotmail.com'])
-            #send_mass_mail((message1, message2), fail_silently=False)
+            message1 = (assunto, 'Existe uma nova promoção para sua região', 'contato@aluguetaxi.com.br', ['duda604@gmail.com'])
+            message2 = (assunto, 'Existe uma nova promoção para sua região', 'contato@aluguetaxi.com.br', [ue])
+            send_mass_mail((message1, message2), fail_silently=False)
 
             # datatuple = (
             #(assunto, 'Existe uma nova promoção para sua região', 'contato@aluguetaxi.com.br', ['duda604@gmail.com']),

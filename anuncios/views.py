@@ -342,7 +342,7 @@ def anuncioMensagens(request):
             mensagem_p2 = '<br><br>Observação: é preciso estar logado no site da AlugueTáxi para poder acessar a seção de mensagens!<br><br>Equipe AlugueTáxi'
             assunto = 'AlugueTáxi | Mensagem | ' + \
                 mensagem.nome + ' | ' + request.user.first_name
-            text_content = request.POST['mensagem']
+            text_content = 'Existe uma nova mensagem no AlugueTáxi para você:\n\n' + request.POST['mensagem'] + '\n\nObservação: é preciso estar logado no site da AlugueTáxi para poder acessar a seção de mensagens!\n\nEquipe AlugueTáxi'
             html_content = '<strong><span style="color: #BDBDBD;">ALUGUE</span><span class="at" style="color: #FBC02D;">TÁXI</span></strong><br><br>' + mensagem_p1 + \
                 '"' + request.POST['mensagem'] + '"<br><br>De: ' + request.user.first_name + \
                 '<br><br><a href="' + host + '/anuncio/mensagens">' + \

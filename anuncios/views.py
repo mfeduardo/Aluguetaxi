@@ -44,6 +44,8 @@ def retornaData(dataReferencia):
     return data
 
 # Público
+
+
 def anuncios(request):
     busca = request.GET.get('busca')
 
@@ -450,17 +452,14 @@ def anuncioAtivar(request, slug2):
 
             # email em massa
             assunto = 'AlugueTáxi | Novo anúncio para sua região | ' + slug2
-            mensagem_região = 'Olá! Existe um novo anúncio para sua região: <a href="' + host + '/anuncio/detalhes/' + slug2 + '">' + anuncio.marca + ' | ' + anuncio.modelo + ' | Diária: R$' + str(anuncio.valor) + \
-                '</a><br><br>- Link para o seu anúncio: <a href="' + host + '/anuncio/detalhes/' + slug2 + '">' + host + \
-                '/anuncio/detalhes/' + slug2 + \
-                '</a><br><br>Agradecemos por utilizar nossos serviços,<br><br>Equipe AlugueTáxi.'
             
+            mensagem_regiao = 'Olá! Existe um novo anúncio para sua região!\n\nLink para o anúncio: https://aluguetaxi.herokuapp.com/anuncio/detalhes/'+ slug2 +'\n\nAgradecemos por utilizar nossos serviços,\n\nEquipe AlugueTáxi'
             usuariosEmail = []
             usuarios = Usuario.objects.filter(cidade=anuncio.local_municipio)
 
             for usuario in usuarios:
                 if usuario.email != anuncio.email:
-                    usuariosEmail.append((assunto, mensagem_região,'contato@aluguetaxi.com.br', [usuario.email]),)
+                       usuariosEmail.append((assunto, mensagem_regiao,'contato@aluguetaxi.com.br', [usuario.email]),)
 
             datatuple = (usuariosEmail)
 

@@ -44,8 +44,6 @@ def retornaData(dataReferencia):
     return data
 
 # Público
-
-
 def anuncios(request):
     busca = request.GET.get('busca')
 
@@ -420,13 +418,13 @@ def anuncioAtivar(request, slug2):
     anuncio = get_object_or_404(Anuncio, slug2=slug2)
 
     if (anuncio.id_usr == request.user):
-        
+
         data_ref = datetime.now().astimezone(fuso_horario) - anuncio.anuncio_fim
         promo = timedelta(days=30) - (data_ref)
-        
+
         # Verifica se já tem mais de 30 dias desde a última promoção
         if data_ref > timedelta(days=30):
-            
+
             anuncio.anuncio_inicio = datetime.now().astimezone(fuso_horario)
             anuncio.anuncio_fim = datetime.now().astimezone(fuso_horario)+timedelta(days=7)
             anuncio.save()
@@ -434,16 +432,12 @@ def anuncioAtivar(request, slug2):
             data_inicio = retornaData(anuncio.anuncio_inicio)
             data_fim = retornaData(anuncio.anuncio_fim)
 
-            ue=[]    
-            usuarios = Usuario.objects.filter(cidade=anuncio.local_municipio)
-            for u in usuarios:
-                ue.append(u.email)
-                        
             mensagem_p1 = 'Olá, a sua promoção mensal de anúncio foi ativada <strong>(7 dias grátis)!</strong><br><br>' + '- Período de exibição do anúncio: de ' + data_inicio + ' - ' + data_fim + \
-                '<br><br>- Seus anúncios podem ser renovados para um novo período de 15 dias, sempre que você precisar. Basta ir na sessão Meus Anúncios do nosso site e reativar qualquer anúncio cadastrado anteriormente, mediante pagamento de uma nova taxa de R$ 15,00 (valor atual) por anúncio.'
+                '<br><br>- Seus anúncios podem ser renovados para um novo período de 15 dias, sempre que você precisar. Basta ir na sessão Meus Anúncios do nosso site e reativar qualquer anúncio cadastrado anteriormente, mediante pagamento de uma nova taxa de R$ 15,00 (valor atual) por anúncio ou esperar o período da próxima promoção mensal de 7 dias.'
             mensagem_p2 = '<br><br>- As informações cadastradas para o seu anúncio podem ser editadas a qualquer tempo, sempre que você achar necessário, basta ir na sessão Meus Anúncios do nosso site.<br><br>- Link para o seu anúncio: <a href="' + host + '/anuncio/detalhes/' + slug2 + '">' + host + '/anuncio/detalhes/' + \
                 slug2 + '</a><br><br>Agradecemos por utilizar nossos serviços,<br><br>Equipe AlugueTáxi.'
 
+            # email para proprietário
             email = request.user.email
             assunto = 'AlugueTáxi | Promoção Mensal Ativada | ' + slug2
             text_content = mensagem_p1 + mensagem_p2
@@ -454,15 +448,23 @@ def anuncioAtivar(request, slug2):
             msg.attach_alternative(html_content, "text/html")
             msg.send()
 
-            message1 = (assunto, 'Existe uma nova promoção para sua região', 'contato@aluguetaxi.com.br', ['duda604@gmail.com'])
-            message2 = (assunto, 'Existe uma nova promoção para sua região', 'contato@aluguetaxi.com.br', ue)
-            send_mass_mail((message1, message2), fail_silently=False)
+            # email em massa
+            assunto = 'AlugueTáxi | Novo anúncio para sua região | ' + slug2
+            mensagem_região = 'Olá! Existe um novo anúncio para sua região: <a href="' + host + '/anuncio/detalhes/' + slug2 + '">' + anuncio.marca + ' | ' + anuncio.modelo + ' | Diária: R$' + str(anuncio.valor) + \
+                '</a><br><br>- Link para o seu anúncio: <a href="' + host + '/anuncio/detalhes/' + slug2 + '">' + host + \
+                '/anuncio/detalhes/' + slug2 + \
+                '</a><br><br>Agradecemos por utilizar nossos serviços,<br><br>Equipe AlugueTáxi.'
+            
+            usuariosEmail = []
+            usuarios = Usuario.objects.filter(cidade=anuncio.local_municipio)
 
-            # datatuple = (
-            #(assunto, 'Existe uma nova promoção para sua região', 'contato@aluguetaxi.com.br', ['duda604@gmail.com']),
-            #(assunto, 'Existe uma nova promoção para sua região', 'contato@aluguetaxi.com.br', ['duda604@hotmail.com']),
-            # )
-            # send_mass_mail(datatuple)
+            for usuario in usuarios:
+                if usuario.email != anuncio.email:
+                    usuariosEmail.append((assunto, mensagem_região,'contato@aluguetaxi.com.br', [usuario.email]),)
+
+            datatuple = (usuariosEmail)
+
+            send_mass_mail(datatuple)
 
             messages.info(request,  anuncio.marca + ' ' + anuncio.modelo +
                           ' | Período do Anúncio: ' + data_inicio + ' - ' + data_fim)

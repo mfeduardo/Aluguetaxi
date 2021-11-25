@@ -257,7 +257,6 @@ def anuncioInfo(request, slug2):
                 messages.add_message(
                     request, SUCESSO, 'As perguntas e respostas também são enviadas para os respectivos e-mails.')
 
-                # return render(request, "anuncios/anuncio_info.html", {'anuncio':anuncio, 'img':img, 'conversas': conversaReferencia, 'msgs': msgs, 'total': total})
                 return redirect('/anuncio/info/' + anuncio.slug2)
 
         else:
@@ -420,10 +419,10 @@ def anuncioAtivar(request, slug2):
     anuncio = get_object_or_404(Anuncio, slug2=slug2)
 
     if (anuncio.id_usr == request.user):
-
-        data_ref = datetime.now().astimezone(fuso_horario) - anuncio.anuncio_fim
+                
+        data_ref = datetime.now().astimezone(fuso_horario) - request.user.data_promo
         promo = timedelta(days=30) - (data_ref)
-
+        
         # Verifica se já tem mais de 30 dias desde a última promoção
         if data_ref > timedelta(days=30):
 
@@ -433,6 +432,8 @@ def anuncioAtivar(request, slug2):
 
             data_inicio = retornaData(anuncio.anuncio_inicio)
             data_fim = retornaData(anuncio.anuncio_fim)
+
+            Usuario.objects.filter(id=request.user.id).update(data_promo = datetime.now().astimezone(fuso_horario)+timedelta(days=7))      
 
             mensagem_html1 = 'Olá, a sua promoção mensal de anúncio foi ativada <strong>(7 dias grátis)!</strong><br><br>- ' + anuncio.marca + ' | '+ anuncio.modelo +' | Diária: R$ '+ str(anuncio.valor) +'<br><br>- Período de exibição do anúncio: de ' + data_inicio + ' - ' + data_fim + \
                 '<br><br>- Seus anúncios podem ser renovados para um novo período de 15 dias, sempre que você precisar. Basta ir na sessão Meus Anúncios do nosso site e reativar qualquer anúncio cadastrado anteriormente, mediante pagamento de uma nova taxa de R$ 15,00 (valor atual) por anúncio ou esperar o período da próxima promoção mensal de 7 dias.'

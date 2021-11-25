@@ -53,6 +53,7 @@ class Usuario(AbstractUser):
     uf_nome = models.CharField(max_length=255, blank=True, null=True)
     promo = models.BooleanField(blank=True, null=True)
     promo_extra = models.CharField(max_length=255, blank=True, null=True)
+    data_promo = models.DateTimeField(blank=True, null=True, default='2021-09-19 00:36:08.101176-03')
     contagem_anuncios = models.IntegerField(blank=True, null=True)
     lista_automoveis = models.CharField(max_length=255, blank=True, null=True)
     newsletter = models.BooleanField(blank=True, null=True)

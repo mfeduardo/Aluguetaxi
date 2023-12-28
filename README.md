@@ -1,6 +1,6 @@
 <h1 align="left">Aluguetaxi (Heroku)</h1>
 
-<div align="center"><img style=" display: inline" src=".github/at.png"></div>
+<div align="center"><img style=" display: inline" src=".github/atbg.png"></div>
 
 <h2>Tecnologias</h2>
 Esse projeto foi desenvolvido com as seguintes tecnologias:<br><br>
